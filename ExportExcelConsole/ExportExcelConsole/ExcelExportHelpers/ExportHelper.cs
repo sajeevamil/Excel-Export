@@ -5,11 +5,11 @@ namespace ExportExcelConsole.ExcelExportHelpers
 {
     public static class ExportHelper
     {
+        public static int numberOfColumnsForExcel = 1;
         public static void MergeCellsAndApplyWrapText(ExcelWorksheet worksheet, int currentRow, string cellContent)
         {
             // Merge cells horizontally and add the cell text content
-            int lastColumn = worksheet.Dimension?.End.Column ?? 1;
-            ExcelRange paragraphCell = worksheet.Cells[currentRow + 1, 1, currentRow + 1, lastColumn];
+            ExcelRange paragraphCell = worksheet.Cells[currentRow + 1, 1, currentRow + 1, numberOfColumnsForExcel];
             paragraphCell.Merge = true;
             paragraphCell.Value = cellContent;
 
