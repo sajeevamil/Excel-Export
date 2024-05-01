@@ -15,7 +15,6 @@ namespace ExportExcelConsole.ExcelExportHelpers
                 {
                     foreach (HtmlNode cellNode in rowNode.SelectNodes(".//td"))
                     {
-                        var children = cellNode.ChildNodes;
                         foreach (HtmlNode childNode in cellNode.ChildNodes)
                         {
                             ParseNodeToExcel(childNode, worksheet, column, ref currentRow);
