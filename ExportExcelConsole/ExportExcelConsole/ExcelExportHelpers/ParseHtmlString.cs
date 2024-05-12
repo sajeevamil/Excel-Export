@@ -29,10 +29,10 @@ namespace ExportExcelConsole.ExcelExportHelpers
                 {
                     ListExport.ExportListToExcel(node, worksheet, ref currentRow);
                 }
-                else if (node.Name.Equals("br", StringComparison.OrdinalIgnoreCase))
-                {
-                    currentRow++;
-                }
+                //else if (node.Name.Equals("br", StringComparison.OrdinalIgnoreCase))
+                //{
+                //    currentRow++;
+                //}
                 else if (node.Name.Equals("p", StringComparison.OrdinalIgnoreCase))
                 {
                     currentRow++;
