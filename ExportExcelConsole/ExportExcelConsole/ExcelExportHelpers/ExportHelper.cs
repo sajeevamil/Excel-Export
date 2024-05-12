@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace ExportExcelConsole.ExcelExportHelpers
 {
@@ -9,9 +10,30 @@ namespace ExportExcelConsole.ExcelExportHelpers
         public static void MergeCellsAndApplyWrapText(ExcelWorksheet worksheet, int currentRow, string cellContent)
         {
             // Merge cells horizontally and add the cell text content
-            ExcelRange paragraphCell = worksheet.Cells[currentRow + 1, 1, currentRow + 1, numberOfColumnsForExcel];
+            ExcelRange paragraphCell = worksheet.Cells[currentRow, 1, currentRow, numberOfColumnsForExcel];
             paragraphCell.Merge = true;
-            paragraphCell.Value = cellContent;
+            var existingContent = "";
+            if (paragraphCell.Value is not null)
+            {
+                if (paragraphCell.Value is string stringValue)
+                {
+                    existingContent = stringValue;
+                }
+                else if (paragraphCell.Value is object[,] richTextArray)
+                {
+                    for (int i = 0; i < richTextArray.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < richTextArray.GetLength(1); j++)
+                        {
+                            object value = richTextArray[i, j];
+
+                            if (value is not null)
+                                existingContent = $"{existingContent} {value}";
+                        }
+                    }
+                }
+            }
+            paragraphCell.Value = !existingContent.Equals("") ? $"{existingContent} {cellContent}" : cellContent;
 
             // Enable text wrapping for the merged cell
             paragraphCell.Style.WrapText = true;
@@ -25,7 +47,7 @@ namespace ExportExcelConsole.ExcelExportHelpers
 
             if (rowHeight > 0)
             {
-                worksheet.Row(currentRow + 1).Height = rowHeight;
+                worksheet.Row(currentRow).Height = rowHeight;
             }
         }
 

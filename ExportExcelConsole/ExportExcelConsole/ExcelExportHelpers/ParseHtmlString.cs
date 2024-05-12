@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace ExportExcelConsole.ExcelExportHelpers
 {
@@ -32,19 +33,30 @@ namespace ExportExcelConsole.ExcelExportHelpers
                 {
                     currentRow++;
                 }
-                else // expecting it as paragraph
+                else if (node.Name.Equals("p", StringComparison.OrdinalIgnoreCase))
                 {
+                    currentRow++;
                     foreach (HtmlNode childNode in node.ChildNodes)
                     {
                         ParseNodeToExcel(childNode, worksheet, ref currentRow);
-
-                        if (node.Name.Equals("strong", StringComparison.OrdinalIgnoreCase))
+                    }
+                }
+                else 
+                {
+                    if (node.Name.Equals("strong", StringComparison.OrdinalIgnoreCase))
+                    {
+                        ExportStyleFormatting.ApplyFontFormatting(node, worksheet, currentRow, 1, true);
+                        foreach (HtmlNode childNode in node.ChildNodes)
                         {
-                            ExportStyleFormatting.ApplyFontFormatting(node, worksheet, currentRow, 1, true);
+                            ParseNodeToExcel(childNode, worksheet, ref currentRow);
                         }
-                        else if (node.Name.Equals("u", StringComparison.OrdinalIgnoreCase))
+                    }
+                    else if (node.Name.Equals("u", StringComparison.OrdinalIgnoreCase))
+                    {
+                        ExportStyleFormatting.ApplyFontFormatting(node, worksheet, currentRow, 1, false, true);
+                        foreach (HtmlNode childNode in node.ChildNodes)
                         {
-                            ExportStyleFormatting.ApplyFontFormatting(node, worksheet, currentRow, 1, false, true);
+                            ParseNodeToExcel(childNode, worksheet, ref currentRow);
                         }
                     }
                 }
