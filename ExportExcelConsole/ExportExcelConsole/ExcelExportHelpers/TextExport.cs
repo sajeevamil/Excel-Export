@@ -10,6 +10,7 @@ namespace ExportExcelConsole.ExcelExportHelpers
             string text = node.InnerText.Trim();
             ExportHelper.MergeCellsAndApplyWrapText(worksheet, currentRow, text);
             ExportHelper.SetRowHeight(worksheet, text, currentRow);
+            ExportStyleFormatting.ApplyJustifyToTheContent(worksheet, currentRow);
             // currentRow++;
         }
     }

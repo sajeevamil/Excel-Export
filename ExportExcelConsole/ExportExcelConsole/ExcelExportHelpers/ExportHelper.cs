@@ -42,8 +42,10 @@ namespace ExportExcelConsole.ExcelExportHelpers
         public static void SetRowHeight(ExcelWorksheet worksheet, string cellContent, int currentRow)
         {
             // Calculate the height required for the content based on max characters per line
-            int maxCharactersPerLine = 90;
-            double rowHeight = cellContent.Length / maxCharactersPerLine * 15; // Assuming font size 15
+            int maxCharactersPerLine = 114;
+            int expectedFontSize = 15;
+            double height = Math.Floor(((double)cellContent.Length / maxCharactersPerLine) * expectedFontSize);
+            double rowHeight = Math.Ceiling(height / expectedFontSize) * expectedFontSize;
 
             if (rowHeight > 0)
             {

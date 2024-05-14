@@ -22,5 +22,11 @@ namespace ExportExcelConsole.ExcelExportHelpers
             if (underline)
                 cell.Style.Font.UnderLine = true;
         }
+
+        public static void ApplyJustifyToTheContent(ExcelWorksheet worksheet, int currentRow, int currentColumn = 1)
+        {
+            ExcelRange cell = worksheet.Cells[currentRow, currentColumn];
+            cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Justify;
+        }
     }
 }
