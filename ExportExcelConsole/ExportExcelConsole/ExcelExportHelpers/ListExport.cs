@@ -28,6 +28,7 @@ namespace ExportExcelConsole.ExcelExportHelpers
                 }
 
                 ExportHelper.MergeCellsAndApplyWrapText(worksheet, currentRow, listItemText);
+                ExportHelper.SetRowHeight(worksheet, listItemText, currentRow);
                 currentRow++;
             }
         }
