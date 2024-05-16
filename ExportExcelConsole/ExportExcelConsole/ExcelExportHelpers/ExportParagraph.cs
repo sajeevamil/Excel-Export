@@ -10,28 +10,41 @@ namespace ExportExcelConsole.ExcelExportHelpers
             ExcelRange paragraphCell = worksheet.Cells[currentRow, 1, currentRow, ExportHelper.numberOfColumnsForExcel];
             paragraphCell.Merge = true;
 
-            foreach (var childNode in paragraphNode.ChildNodes)
-            {
-                if (childNode.Name.Equals("strong", StringComparison.OrdinalIgnoreCase))
-                {
-                    paragraphCell.RichText.Add(childNode.InnerText).Bold = true;
-                }
-                else if (childNode.Name.Equals("u", StringComparison.OrdinalIgnoreCase))
-                {
-                    paragraphCell.RichText.Add(childNode.InnerText).UnderLine = true;
-                }
-                else
-                {
-                    var richText = paragraphCell.RichText.Add(childNode.InnerText);
-                    richText.Bold = false;
-                    richText.UnderLine = false;
-                }
+            // Apply formatting recursively
+            ApplyFormatting(paragraphNode, paragraphCell);
 
-            }
             paragraphCell.Style.WrapText = true;
             ExportHelper.SetRowHeight(worksheet, paragraphCell.Text, currentRow);
             ExportStyleFormatting.ApplyJustifyToTheContent(worksheet, currentRow);
             currentRow++;
+        }
+
+        private static void ApplyFormatting(HtmlNode node, ExcelRange cell, bool bold = false, bool underline = false)
+        {
+            foreach (var childNode in node.ChildNodes)
+            {
+                if (childNode.NodeType == HtmlNodeType.Text)
+                {
+                    var richText = cell.RichText.Add(childNode.InnerText);
+                    richText.Bold = bold;
+                    richText.UnderLine = underline;
+                }
+                else if (childNode.NodeType == HtmlNodeType.Element)
+                {
+                    if (childNode.Name.Equals("strong", StringComparison.OrdinalIgnoreCase))
+                    {
+                        ApplyFormatting(childNode, cell, bold: true, underline: underline);
+                    }
+                    else if (childNode.Name.Equals("u", StringComparison.OrdinalIgnoreCase))
+                    {
+                        ApplyFormatting(childNode, cell, bold, underline: true);
+                    }
+                    else
+                    {
+                        ApplyFormatting(childNode, cell, bold, underline);
+                    }
+                }
+            }
         }
     }
 }

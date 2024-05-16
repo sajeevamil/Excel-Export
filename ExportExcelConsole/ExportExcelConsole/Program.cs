@@ -25,6 +25,8 @@ class Program
         // string htmlContent = @"<p>Basis of preparation</p><table class=""se-table-layout-fixed""><tbody><tr><td>Typeofasset</td><td></td><td>Estimatedusefullife</td></tr></tbody></table>";
         // string htmlContent = @"<p>We have audited the financial statements of <strong>xxxx </strong>(“the firm or company”), which comprise the balance sheet as at xxxx (Year-end) and the statement of Profit and Loss for the year then ended, and notes to the financial statements, including a summary of significant accounting policies and other explanatory information.&nbsp;</p>";
         // string htmlContent = @"<p>&nbsp;&nbsp;</p><p>We have audited the financial statements of <strong>xxxx </strong>(“the firm or company”), which comprise the balance sheet as at xxxx (Year-end) and the statement of Profit and Loss for the year then ended, and notes to the financial statements, including a summary of significant accounting policies and other explanatory information.&nbsp;</p>";
+        // string htmlContent = @"<p>ABC Pvt Ltd (the Company) is a private limited company domiciled in India and incorporated under the provisions of <strong>the Companies Act, 2013, with CIN: XXXXXXXX5555C00000</strong>. The business activities of the company is distribution of drugs and pharmaceuticals. The company is a Small and Medium Sized Company (SMC) as defined in the General Instruction in respect of Accounting Standards notified under the Companies Act, 2013. Accordingly, the company has complied with the Accounting Standards to the extent to which they are applicable to small and medium sized company.</p>";
+        
 
         htmlContent = HttpUtility.HtmlDecode(htmlContent);
 
