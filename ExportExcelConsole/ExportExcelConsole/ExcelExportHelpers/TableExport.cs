@@ -35,11 +35,11 @@ namespace ExportExcelConsole.ExcelExportHelpers
                     ParseNodeToExcel(childNode, worksheet, columnNum, ref currentRow);
                     if (node.Name.Equals("strong", StringComparison.OrdinalIgnoreCase))
                     {
-                        ExportStyleFormatting.ApplyFontFormatting(node, worksheet, currentRow, columnNum, true);
+                        ExportStyleFormatting.ApplyFontFormattingToCell(node, worksheet, currentRow, columnNum, true);
                     }
                     else if (node.Name.Equals("u", StringComparison.OrdinalIgnoreCase))
                     {
-                        ExportStyleFormatting.ApplyFontFormatting(node, worksheet, currentRow, columnNum, false, true);
+                        ExportStyleFormatting.ApplyFontFormattingToCell(node, worksheet, currentRow, columnNum, false, true);
                     }
                 }
             }

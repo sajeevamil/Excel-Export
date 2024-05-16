@@ -43,7 +43,7 @@ namespace ExportExcelConsole.ExcelExportHelpers
         {
             // Calculate the height required for the content based on max characters per line
             int maxCharactersPerLine = 114;
-            int expectedFontSize = 15;
+            int expectedFontSize = 16;
             double height = Math.Floor(((double)cellContent.Length / maxCharactersPerLine) * expectedFontSize);
             double rowHeight = Math.Ceiling(height / expectedFontSize) * expectedFontSize;
 

@@ -36,17 +36,17 @@ namespace ExportExcelConsole.ExcelExportHelpers
                 //}
                 else if (node.Name.Equals("p", StringComparison.OrdinalIgnoreCase))
                 {
-                    currentRow++;
-                    foreach (HtmlNode childNode in node.ChildNodes)
+                    if(currentRow == 0)
                     {
-                        ParseNodeToExcel(childNode, worksheet, ref currentRow);
+                        currentRow++;
                     }
+                    ExportParagraph.ExportParagraphToExcel(node, worksheet, ref currentRow);
                 }
                 else 
                 {
                     if (node.Name.Equals("strong", StringComparison.OrdinalIgnoreCase))
                     {
-                        ExportStyleFormatting.ApplyFontFormatting(node, worksheet, currentRow, 1, true);
+                        ExportStyleFormatting.ApplyFontFormattingToCell(node, worksheet, currentRow, 1, true);
                         foreach (HtmlNode childNode in node.ChildNodes)
                         {
                             ParseNodeToExcel(childNode, worksheet, ref currentRow);
@@ -54,7 +54,7 @@ namespace ExportExcelConsole.ExcelExportHelpers
                     }
                     else if (node.Name.Equals("u", StringComparison.OrdinalIgnoreCase))
                     {
-                        ExportStyleFormatting.ApplyFontFormatting(node, worksheet, currentRow, 1, false, true);
+                        ExportStyleFormatting.ApplyFontFormattingToCell(node, worksheet, currentRow, 1, false, true);
                         foreach (HtmlNode childNode in node.ChildNodes)
                         {
                             ParseNodeToExcel(childNode, worksheet, ref currentRow);
