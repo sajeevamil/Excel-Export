@@ -55,19 +55,39 @@ namespace ExportExcelConsole.ExcelExportHelpers
 
         public static int GetNumberOfColumns(HtmlDocument doc)
         {
-            // Select the first table element
-            HtmlNode tableNode = doc.DocumentNode.SelectSingleNode("//table");
-            if (tableNode == null)
+            int maxColumns = 0;
+
+            // Select all table elements
+            HtmlNodeCollection tableNodes = doc.DocumentNode.SelectNodes("//table");
+
+            if (tableNodes == null)
                 return 1;
 
-            // Select the first row element within the table
-            HtmlNode rowNode = tableNode.SelectSingleNode(".//tr");
-            if (rowNode == null)
-                return 1;
+            foreach (var tableNode in tableNodes)
+            {
+                // Select the first row element within the table
+                HtmlNode rowNode = tableNode.SelectSingleNode(".//tr");
+                if (rowNode == null)
+                    continue;
 
-            // Select all cell elements within the row
-            HtmlNodeCollection cellNodes = rowNode.SelectNodes(".//td");
-            return cellNodes.Count;
+                // Select all cell elements within the row
+                HtmlNodeCollection cellNodes = rowNode.SelectNodes(".//td");
+                int numberOfColumns = cellNodes?.Count ?? 0;
+
+                // Update maxColumns if this table has more columns
+                if (numberOfColumns > maxColumns)
+                {
+                    maxColumns = numberOfColumns;
+                }
+            }
+
+            // If no tables were found, default to 1 column
+            if (maxColumns == 0)
+            {
+                maxColumns = 1;
+            }
+
+            return maxColumns;
         }
         public static void AdjustColumnWidth(ExcelWorksheet worksheet, int numberOfColumns, int columnWidth)
         {
