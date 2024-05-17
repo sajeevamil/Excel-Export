@@ -105,5 +105,33 @@ namespace ExportExcelConsole.ExcelExportHelpers
             }
             return false;
         }
+
+        public static void ApplyFormatting(HtmlNode node, ExcelRange cell, bool bold = false, bool underline = false)
+        {
+            foreach (var childNode in node.ChildNodes)
+            {
+                if (childNode.NodeType == HtmlNodeType.Text)
+                {
+                    var richText = cell.RichText.Add(childNode.InnerText);
+                    richText.Bold = bold;
+                    richText.UnderLine = underline;
+                }
+                else if (childNode.NodeType == HtmlNodeType.Element)
+                {
+                    if (childNode.Name.Equals("strong", StringComparison.OrdinalIgnoreCase))
+                    {
+                        ApplyFormatting(childNode, cell, bold: true, underline: underline);
+                    }
+                    else if (childNode.Name.Equals("u", StringComparison.OrdinalIgnoreCase))
+                    {
+                        ApplyFormatting(childNode, cell, bold, underline: true);
+                    }
+                    else
+                    {
+                        ApplyFormatting(childNode, cell, bold, underline);
+                    }
+                }
+            }
+        }
     }
 }
