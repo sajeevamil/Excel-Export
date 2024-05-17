@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace ExportExcelConsole.ExcelExportHelpers
 {
@@ -14,8 +15,19 @@ namespace ExportExcelConsole.ExcelExportHelpers
             ApplyFormatting(paragraphNode, paragraphCell);
 
             paragraphCell.Style.WrapText = true;
-            ExportHelper.SetRowHeight(worksheet, paragraphCell.Text, currentRow);
             ExportStyleFormatting.ApplyJustifyToTheContent(worksheet, currentRow);
+
+            ExcelRichTextCollection richTextCollection = paragraphCell.RichText;
+            bool hasBold = ExportHelper.HasBoldText(richTextCollection);
+            if(hasBold)
+            {
+                ExportHelper.SetRowHeight(worksheet, paragraphCell.Text, currentRow, 18); // 18 added for a workaround, for bold text increase expected font size
+            }
+            else
+            {
+                ExportHelper.SetRowHeight(worksheet, paragraphCell.Text, currentRow);
+
+            }
             currentRow++;
         }
 

@@ -39,11 +39,8 @@ namespace ExportExcelConsole.ExcelExportHelpers
             paragraphCell.Style.WrapText = true;
         }
 
-        public static void SetRowHeight(ExcelWorksheet worksheet, string cellContent, int currentRow)
+        public static void SetRowHeight(ExcelWorksheet worksheet, string cellContent, int currentRow, int expectedFontSize = 16, int maxCharactersPerLine= 114)
         {
-            // Calculate the height required for the content based on max characters per line
-            int maxCharactersPerLine = 114;
-            int expectedFontSize = 16;
             double height = Math.Floor(((double)cellContent.Length / maxCharactersPerLine) * expectedFontSize);
             double rowHeight = Math.Ceiling(height / expectedFontSize) * expectedFontSize;
 
@@ -95,6 +92,18 @@ namespace ExportExcelConsole.ExcelExportHelpers
             {
                 worksheet.Column(i).Width = columnWidth;
             }
+        }
+
+        public static bool HasBoldText(ExcelRichTextCollection richTextCollection)
+        {
+            foreach (var richText in richTextCollection)
+            {
+                if (richText.Bold)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
