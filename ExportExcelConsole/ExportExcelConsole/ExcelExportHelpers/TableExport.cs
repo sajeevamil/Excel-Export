@@ -9,7 +9,7 @@ namespace ExportExcelConsole.ExcelExportHelpers
         public static void ExportTableToExcel(HtmlNode tableNode, ExcelWorksheet worksheet, ref int currentRow)
         {
             var definedNumberOfColumns = ExportHelper.numberOfColumnsForExcel;
-            var currentTableNumberOfColumns = GetNumeberOfColumnsOfTable(tableNode);
+            var currentTableNumberOfColumns = GetNumberOfColumnsOfTable(tableNode);
 
             foreach (HtmlNode rowNode in tableNode.SelectNodes(".//tr"))
             {
@@ -71,7 +71,7 @@ namespace ExportExcelConsole.ExcelExportHelpers
         //    }
         //}
 
-        public static int GetNumeberOfColumnsOfTable(HtmlNode tableNode)
+        public static int GetNumberOfColumnsOfTable(HtmlNode tableNode)
         {
             HtmlNode rowNode = tableNode.SelectSingleNode(".//tr");
             if (rowNode == null)
