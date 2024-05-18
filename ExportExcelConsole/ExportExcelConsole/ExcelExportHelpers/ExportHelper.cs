@@ -133,6 +133,11 @@ namespace ExportExcelConsole.ExcelExportHelpers
                     }
                 }
             }
+
+            if(node.NodeType == HtmlNodeType.Text)
+            {
+                var richText = cell.RichText.Add(node.InnerText);
+            }
         }
     }
 }
