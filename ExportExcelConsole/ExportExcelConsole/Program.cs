@@ -5,7 +5,6 @@ using System.Web;
 
 class Program
 {
-    static int columnWidthForA4 = 100;
     static void Main(string[] args)
     {
         // Set EPPlus license context
@@ -39,6 +38,8 @@ class Program
         HtmlDocument doc = new HtmlDocument();
         doc.LoadHtml(htmlContent);
 
+        var parseHtmlObj = new ParseHtmlString();
+
         using (ExcelPackage package = new ExcelPackage())
         {
             ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Sheet1");
@@ -46,11 +47,11 @@ class Program
             worksheet.PrinterSettings.PaperSize = ePaperSize.A4;
 
             int numberOfColumnsForExcel = ExportHelper.GetNumberOfColumns(doc);
-            ExportHelper.numberOfColumnsForExcel = numberOfColumnsForExcel;
-            int columnWidth = columnWidthForA4 / numberOfColumnsForExcel;
+            ExportConstants.numberOfColumnsForExcel = numberOfColumnsForExcel;
+            int columnWidth = ExportConstants.columnWidthForA4 / numberOfColumnsForExcel;
             ExportHelper.AdjustColumnWidth(worksheet, numberOfColumnsForExcel, columnWidth);
 
-            ParseHtmlString.ParseHtmlStringToExcel(doc, worksheet);
+            parseHtmlObj.ParseHtmlStringToExcel(doc, worksheet);
 
             // Save the Excel package to a file
             string filePath = $"D:\\Work\\Nithesh's POC\\ExportedExcels\\exported_data_{DateTime.Now:yyyyMMddHHmmss}.xlsx";

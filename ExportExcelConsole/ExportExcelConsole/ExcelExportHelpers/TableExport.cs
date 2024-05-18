@@ -4,11 +4,16 @@ using OfficeOpenXml;
 
 namespace ExportExcelConsole.ExcelExportHelpers
 {
-    public static class TableExport
+    public class TableExport
     {
-        public static void ExportTableToExcel(HtmlNode tableNode, ExcelWorksheet worksheet, ref int currentRow)
+        private ExportHelper _exportHelper;
+        public TableExport()
         {
-            var definedNumberOfColumns = ExportHelper.numberOfColumnsForExcel;
+            _exportHelper = new ExportHelper();
+        }
+        public void ExportTableToExcel(HtmlNode tableNode, ExcelWorksheet worksheet, ref int currentRow)
+        {
+            var definedNumberOfColumns = ExportConstants.numberOfColumnsForExcel;
             var currentTableNumberOfColumns = GetNumberOfColumnsOfTable(tableNode);
 
             foreach (HtmlNode rowNode in tableNode.SelectNodes(".//tr"))
@@ -25,7 +30,7 @@ namespace ExportExcelConsole.ExcelExportHelpers
                     foreach (HtmlNode childNode in cellNode.ChildNodes)
                     {
                         var currentCell = worksheet.Cells[currentRow, column];
-                        ExportHelper.ApplyFormatting(childNode, currentCell);
+                        _exportHelper.ApplyFormatting(childNode, currentCell);
                     }
 
                     if (definedNumberOfColumns == currentTableNumberOfColumns)
@@ -42,34 +47,6 @@ namespace ExportExcelConsole.ExcelExportHelpers
                 currentRow++;
             }
         }
-
-        //private static void ApplyFormatting(HtmlNode node, ExcelRange cell, bool bold = false, bool underline = false)
-        //{
-        //    foreach (var childNode in node.ChildNodes)
-        //    {
-        //        if (childNode.NodeType == HtmlNodeType.Text)
-        //        {
-        //            var richText = cell.RichText.Add(childNode.InnerText);
-        //            richText.Bold = bold;
-        //            richText.UnderLine = underline;
-        //        }
-        //        else if (childNode.NodeType == HtmlNodeType.Element)
-        //        {
-        //            if (childNode.Name.Equals("strong", StringComparison.OrdinalIgnoreCase))
-        //            {
-        //                ApplyFormatting(childNode, cell, bold: true, underline: underline);
-        //            }
-        //            else if (childNode.Name.Equals("u", StringComparison.OrdinalIgnoreCase))
-        //            {
-        //                ApplyFormatting(childNode, cell, bold, underline: true);
-        //            }
-        //            else
-        //            {
-        //                ApplyFormatting(childNode, cell, bold, underline);
-        //            }
-        //        }
-        //    }
-        //}
 
         public static int GetNumberOfColumnsOfTable(HtmlNode tableNode)
         {

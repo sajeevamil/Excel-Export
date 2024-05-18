@@ -4,13 +4,14 @@ using OfficeOpenXml.Style;
 
 namespace ExportExcelConsole.ExcelExportHelpers
 {
-    public static class ExportHelper
+    public class ExportHelper
     {
-        public static int numberOfColumnsForExcel = 1;
-        public static void MergeCellsAndApplyWrapText(ExcelWorksheet worksheet, int currentRow, string cellContent)
+        public ExportHelper(){ }
+
+        public void MergeCellsAndApplyWrapText(ExcelWorksheet worksheet, int currentRow, string cellContent)
         {
             // Merge cells horizontally and add the cell text content
-            ExcelRange paragraphCell = worksheet.Cells[currentRow, 1, currentRow, numberOfColumnsForExcel];
+            ExcelRange paragraphCell = worksheet.Cells[currentRow, 1, currentRow, ExportConstants.numberOfColumnsForExcel];
             paragraphCell.Merge = true;
             var existingContent = "";
             if (paragraphCell.Value is not null)
@@ -39,7 +40,7 @@ namespace ExportExcelConsole.ExcelExportHelpers
             paragraphCell.Style.WrapText = true;
         }
 
-        public static void SetRowHeight(ExcelWorksheet worksheet, string cellContent, int currentRow, int expectedFontSize = 16, int maxCharactersPerLine= 114)
+        public void SetRowHeight(ExcelWorksheet worksheet, string cellContent, int currentRow, int expectedFontSize = 16, int maxCharactersPerLine= 114)
         {
             double height = Math.Floor(((double)cellContent.Length / maxCharactersPerLine) * expectedFontSize);
             double rowHeight = Math.Ceiling(height / expectedFontSize) * expectedFontSize;
@@ -94,7 +95,7 @@ namespace ExportExcelConsole.ExcelExportHelpers
             }
         }
 
-        public static bool HasBoldText(ExcelRichTextCollection richTextCollection)
+        public bool HasBoldText(ExcelRichTextCollection richTextCollection)
         {
             foreach (var richText in richTextCollection)
             {
@@ -106,7 +107,7 @@ namespace ExportExcelConsole.ExcelExportHelpers
             return false;
         }
 
-        public static void ApplyFormatting(HtmlNode node, ExcelRange cell, bool bold = false, bool underline = false)
+        public void ApplyFormatting(HtmlNode node, ExcelRange cell, bool bold = false, bool underline = false)
         {
             foreach (var childNode in node.ChildNodes)
             {
