@@ -3,9 +3,16 @@ using OfficeOpenXml;
 
 namespace ExportExcelConsole.ExcelExportHelpers
 {
-    public static class ListExport
+    public class ListExport
     {
-        public static void ExportListToExcel(HtmlNode listNode, ExcelWorksheet worksheet, ref int currentRow)
+        private ExportHelper _exportHelper;
+        private ExportStyleFormatting _styleFormatting;
+        public ListExport()
+        {
+            _exportHelper = new ExportHelper();
+            _styleFormatting = new ExportStyleFormatting();
+        }
+        public void ExportListToExcel(HtmlNode listNode, ExcelWorksheet worksheet, ref int currentRow)
         {
             bool isOrderedList = string.Equals(listNode.Name, "ol", StringComparison.OrdinalIgnoreCase);
 
@@ -27,9 +34,9 @@ namespace ExportExcelConsole.ExcelExportHelpers
                     listItemText = $"• {listItemText}";
                 }
 
-                ExportHelper.MergeCellsAndApplyWrapText(worksheet, currentRow, listItemText);
-                ExportHelper.SetRowHeight(worksheet, listItemText, currentRow);
-                ExportStyleFormatting.ApplyJustifyToTheContent(worksheet, currentRow);
+                _exportHelper.MergeCellsAndApplyWrapText(worksheet, currentRow, listItemText);
+                _exportHelper.SetRowHeight(worksheet, listItemText, currentRow);
+                _styleFormatting.ApplyJustifyToTheContent(worksheet, currentRow);
                 currentRow++;
             }
         }

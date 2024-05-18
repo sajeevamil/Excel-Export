@@ -4,9 +4,10 @@ using OfficeOpenXml.Style;
 
 namespace ExportExcelConsole.ExcelExportHelpers
 {
-    public static class ExportStyleFormatting
+    public class ExportStyleFormatting
     {
-        public static void ApplyFontFormattingToCell(HtmlNode node, ExcelWorksheet worksheet, int currentRow, int currentColumn = 1, bool bold = false, bool underline = false)
+        public ExportStyleFormatting() { }
+        public void ApplyFontFormattingToCell(HtmlNode node, ExcelWorksheet worksheet, int currentRow, int currentColumn = 1, bool bold = false, bool underline = false)
         {
             ExcelRange cell = worksheet.Cells[currentRow, currentColumn];
             if (bold)
@@ -15,7 +16,7 @@ namespace ExportExcelConsole.ExcelExportHelpers
                 cell.Style.Font.UnderLine = true;
         }
 
-        public static void ApplyJustifyToTheContent(ExcelWorksheet worksheet, int currentRow, int currentColumn = 1)
+        public void ApplyJustifyToTheContent(ExcelWorksheet worksheet, int currentRow, int currentColumn = 1)
         {
             ExcelRange cell = worksheet.Cells[currentRow, currentColumn];
             cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Justify;
